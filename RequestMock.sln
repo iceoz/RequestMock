@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestMock.Web", "RequestMock.Web\RequestMock.Web.csproj", "{1BB29433-F4F0-4045-A052-CAEFD6075397}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestMock.Infra", "RequestMock.Infra\RequestMock.Infra.csproj", "{E5FB9C17-195B-4144-9B73-9A9CD6F2AEE0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestMock.Cross", "RequestMock.Cross\RequestMock.Cross.csproj", "{447DAE06-C669-4F24-B9A8-0C878C35FE52}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestMock.Dominio", "RequestMock.Dominio\RequestMock.Dominio.csproj", "{93DEEB9F-9FDF-460C-80F8-6784DA8A09C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestMock.Aplicacao", "RequestMock.Aplicacao\RequestMock.Aplicacao.csproj", "{32EDE629-5992-4A88-BACD-FB17EAD545A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestMock.Repositorio", "RequestMock.Repositorio\RequestMock.Repositorio.csproj", "{B7BDC64F-92F1-4DFA-BDD9-A8E5303432F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BB29433-F4F0-4045-A052-CAEFD6075397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB29433-F4F0-4045-A052-CAEFD6075397}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB29433-F4F0-4045-A052-CAEFD6075397}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB29433-F4F0-4045-A052-CAEFD6075397}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5FB9C17-195B-4144-9B73-9A9CD6F2AEE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5FB9C17-195B-4144-9B73-9A9CD6F2AEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5FB9C17-195B-4144-9B73-9A9CD6F2AEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5FB9C17-195B-4144-9B73-9A9CD6F2AEE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{447DAE06-C669-4F24-B9A8-0C878C35FE52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{447DAE06-C669-4F24-B9A8-0C878C35FE52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{447DAE06-C669-4F24-B9A8-0C878C35FE52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{447DAE06-C669-4F24-B9A8-0C878C35FE52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93DEEB9F-9FDF-460C-80F8-6784DA8A09C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93DEEB9F-9FDF-460C-80F8-6784DA8A09C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93DEEB9F-9FDF-460C-80F8-6784DA8A09C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93DEEB9F-9FDF-460C-80F8-6784DA8A09C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32EDE629-5992-4A88-BACD-FB17EAD545A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32EDE629-5992-4A88-BACD-FB17EAD545A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32EDE629-5992-4A88-BACD-FB17EAD545A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32EDE629-5992-4A88-BACD-FB17EAD545A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7BDC64F-92F1-4DFA-BDD9-A8E5303432F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7BDC64F-92F1-4DFA-BDD9-A8E5303432F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7BDC64F-92F1-4DFA-BDD9-A8E5303432F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7BDC64F-92F1-4DFA-BDD9-A8E5303432F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://schmitz85.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = RequestMock.Web\\RequestMock.Web.csproj
+		SccProjectName1 = RequestMock.Web
+		SccLocalPath1 = RequestMock.Web
+		SccProjectUniqueName2 = RequestMock.Infra\\RequestMock.Infra.csproj
+		SccProjectName2 = RequestMock.Infra
+		SccLocalPath2 = RequestMock.Infra
+		SccProjectUniqueName3 = RequestMock.Cross\\RequestMock.Cross.csproj
+		SccProjectName3 = RequestMock.Cross
+		SccLocalPath3 = RequestMock.Cross
+		SccProjectUniqueName4 = RequestMock.Dominio\\RequestMock.Dominio.csproj
+		SccProjectName4 = RequestMock.Dominio
+		SccLocalPath4 = RequestMock.Dominio
+		SccProjectUniqueName5 = RequestMock.Aplicacao\\RequestMock.Aplicacao.csproj
+		SccProjectName5 = RequestMock.Aplicacao
+		SccLocalPath5 = RequestMock.Aplicacao
+		SccProjectUniqueName6 = RequestMock.Repositorio\\RequestMock.Repositorio.csproj
+		SccProjectName6 = RequestMock.Repositorio
+		SccLocalPath6 = RequestMock.Repositorio
+	EndGlobalSection
+EndGlobal

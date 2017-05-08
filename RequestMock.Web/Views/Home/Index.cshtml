@@ -1,0 +1,17 @@
+﻿@{
+    IDictionary<int, string> encodes = ViewBag.Encode;
+    IDictionary<int, string> contentTypes = ViewBag.ContentType;
+    IDictionary<int, string> statusCodes = ViewBag.StatusCode;
+}
+<section>
+    <header>
+        <h1>Request Mock</h1>
+        <h3>Teste sua API REST com respostas HTTP reais</h3>
+    </header>
+    <section>
+        <form asp-controller="Home" asp-action="Teste">
+            <select dicionario="@encodes" id="oioi" name="adas" />
+            @await Component.InvokeAsync("SelectDictionary", new { dicionario = contentTypes, id = "oioiaaa", name = "aaabbb" })
+        </form>
+    </section>
+</section>
