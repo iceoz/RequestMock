@@ -10,5 +10,6 @@ namespace RequestMock.Aplicacao
     {
         Task<Guid> Adicionar(RequisicaoViewModel requisicao);
         Task<RequisicaoViewModel> Pesquisar(Guid guidRequisicao);
+        IList<string> ValidarRequisicao(RequisicaoViewModel requisicao);
     }
 }

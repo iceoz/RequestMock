@@ -1,44 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RequestMock.Infra
 {
     public enum ContentType
     {
-        [Description("application/json")]
+        [Display(Description = ("application/json"))]
         applicationJson = 0,
 
-        [Description("application/x-www-form-urlencoded")]
+        [Display(Description = ("application/x-www-form-urlencoded"))]
         applicationXWwwFormUrlEncoded = 1,
 
-        [Description("application/xhtml-xml")]
+        [Display(Description = ("application/xhtml-xml"))]
         applicationXhml = 2,
 
-        [Description("application/xml")]
+        [Display(Description = ("application/xml"))]
         applicationXml = 3,
 
-        [Description("multipart/form-data")]
+        [Display(Description = ("multipart/form-data"))]
         multipartFormData = 4,
 
-        [Description("text/css")]
+        [Display(Description = ("text/css"))]
         textCss = 5,
 
-        [Description("text/csv")]
+        [Display(Description = ("text/csv"))]
         textCsv = 6,
 
-        [Description("text/html")]
+        [Display(Description = ("text/html"))]
         textHtml = 7,
 
-        [Description("text/json")]
+        [Display(Description = ("text/json"))]
         textJson = 8,
 
-        [Description("text/plain")]
+        [Display(Description = ("text/plain"))]
         textPlain = 9,
 
-        [Description("text/xml")]
+        [Display(Description = ("text/xml"))]
         textXml = 10
     }
 }

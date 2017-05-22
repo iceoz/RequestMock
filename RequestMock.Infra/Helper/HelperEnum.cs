@@ -50,7 +50,6 @@ namespace RequestMock.Infra.Helper
                     if (Enum.TryParse(name, out T atual))
                     {
                         var memberInfo = atual.GetType().GetTypeInfo().GetMember(atual.ToString());
-                        var attribute = memberInfo[0].GetCustomAttributes<DescriptionAttribute>().FirstOrDefault();
                         retorno.Add(atual, atual.ObterDescricao());
                     }
                 }
@@ -62,9 +61,9 @@ namespace RequestMock.Infra.Helper
         public static string ObterDescricao<T>(this T enumerador) where T : struct, IConvertible
         {
             var memberInfo = enumerador.GetType().GetTypeInfo().GetMember(enumerador.ToString());
-            var attribute = memberInfo[0].GetCustomAttributes<DescriptionAttribute>().FirstOrDefault();
+            var attribute = memberInfo[0].GetCustomAttributes<System.ComponentModel.DataAnnotations.DisplayAttribute>().FirstOrDefault();
             return attribute.Description;
-        }
+;        }
 
         private static async Task<IDictionary<T, string>> ObterNomesT<T>() where T : struct, IConvertible
         {

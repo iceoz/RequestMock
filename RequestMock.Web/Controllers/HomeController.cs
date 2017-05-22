@@ -3,7 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using RequestMock.Aplicacao;
 using RequestMock.Infra;
 using System;
+using System.Linq;
 using RequestMock.Infra.Helper;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace RequestMock.Web.Controllers
 {
@@ -12,7 +17,7 @@ namespace RequestMock.Web.Controllers
     {
         IRequisicaoAplicacao _aplicacao;
 
-        
+
         public HomeController(IRequisicaoAplicacao aplicacao)
         {
             _aplicacao = aplicacao;
@@ -21,8 +26,9 @@ namespace RequestMock.Web.Controllers
         [HttpGet()]
         public async Task<IActionResult> Index()
         {
-            await CarregarViewState();
-            return View(); 
+            await CarregarViewBag(null);
+
+            return View(new RequisicaoViewModel() { StatusCode = System.Net.HttpStatusCode.OK });
         }
 
         [HttpGet("{id}")]
@@ -30,7 +36,9 @@ namespace RequestMock.Web.Controllers
         {
             var retorno = await PesquisarPorID(id);
             if (retorno != null)
-                return new ContentResult() { Content = retorno.Corpo, ContentType = retorno.ContentType.ObterDescricao(), StatusCode = (int)retorno.StatusCode };
+            {
+                return new ContentResult() { Content = retorno.Requestcontent, ContentType = retorno.ContentType.ObterDescricao(), StatusCode = (int)retorno.StatusCode };
+            }
             return BadRequest("Não foi possivel encontrar a chamada");
         }
 
@@ -40,8 +48,8 @@ namespace RequestMock.Web.Controllers
             var retorno = await PesquisarPorID(id);
             if (retorno != null && !String.IsNullOrEmpty(callback))
             {
-                retorno.Corpo = string.Format("function {0}() { return '{1}'; }", callback, HelperString.Base64Encode(retorno.Corpo, retorno.Encode));
-                return new ContentResult() { Content = retorno.Corpo, ContentType = "application/javascript", StatusCode = (int)retorno.StatusCode };
+                retorno.Requestcontent = string.Format("function {0}() { return '{1}'; }", callback, HelperString.Base64Encode(retorno.Requestcontent, retorno.Encode));
+                return new ContentResult() { Content = retorno.Requestcontent, ContentType = "application/javascript", StatusCode = (int)retorno.StatusCode };
             }
             return BadRequest("Não foi possivel encontrar a chamada");
         }
@@ -54,26 +62,110 @@ namespace RequestMock.Web.Controllers
             }
 
             return null;
-        }        
-
-        //[HttpPost("gravar")]
-        [HttpGet("gravar")]
-        public async Task<IActionResult> Gravar()
-        {
-            var chamada = new RequisicaoViewModel() { ContentType = ContentType.textJson, Encode = Encode.utf16, StatusCode = System.Net.HttpStatusCode.OK, Corpo = "{ \"a\" : \"b\", \"b\" : \"c\" }" };
-
-            var resposta = await _aplicacao.Adicionar(chamada);
-
-            var tralal = await _aplicacao.Pesquisar(resposta);
-
-            return Ok(resposta);
         }
 
-        private async Task CarregarViewState()
+        [HttpPost("gravar")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Gravar(RequisicaoViewModel formData)
         {
-            ViewBag.Encode = await HelperEnum.ObterDescricaoEnconde();
-            ViewBag.ContentType = await HelperEnum.ObterDescricaoContentType();
-            ViewBag.StatusCode = await HelperEnum.ObterDescricaoStatusCode();
+            try
+            {
+                foreach (var e in _aplicacao.ValidarRequisicao(formData))
+                {
+                    ModelState.AddModelError("", e);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    formData.Chave = await _aplicacao.Adicionar(formData);
+                }
+            }
+            catch
+            {
+                formData.Chave = Guid.Empty;
+            }
+
+            await CarregarViewBag(formData);
+
+            return View("Index", formData);
+        }
+
+        private async Task CarregarViewBag(RequisicaoViewModel formData)
+        {
+            await Task.WhenAll(new Task[] {
+                CarregarViewBagHeaders(formData),
+                MontarComboEncode(formData),
+                MontarComboContentType(formData),
+                MontarComboStatusCode(formData)
+            });
+        }
+
+        private async Task CarregarViewBagHeaders(RequisicaoViewModel formData)
+        {
+            await Task.Run(() =>
+            {
+                ViewBag.MostrarHeaders = formData != null && (
+                    formData.HeaderNames.Any(x => !string.IsNullOrEmpty(x)) ||
+                    formData.HeaderValues.Any(x => !string.IsNullOrEmpty(x))
+                );
+            });
+        }
+
+        private async Task MontarComboEncode(RequisicaoViewModel formData)
+        {
+            var dicionario = await HelperEnum.ObterDescricaoEnconde();
+            int? valor = null;
+            if (formData != null)
+            {
+                valor = (int)formData.Encode;
+            }
+
+            ViewBag.Encode = await MontarCombo(dicionario, valor);
+        }
+
+        private async Task MontarComboStatusCode(RequisicaoViewModel formData)
+        {
+            var dicionario = await HelperEnum.ObterDescricaoStatusCode();
+            int? valor = null;
+            if (formData != null)
+            {
+                valor = (int)formData.StatusCode;
+            }
+
+            ViewBag.StatusCode = await MontarCombo(dicionario, valor);
+        }
+
+        private async Task MontarComboContentType(RequisicaoViewModel formData)
+        {
+            var dicionario = await HelperEnum.ObterDescricaoContentType();
+            int? valor = null;
+            if (formData != null)
+            {
+                valor = (int)formData.ContentType;
+            }
+
+            ViewBag.ContentType = await MontarCombo(dicionario, valor);
+        }
+
+        private async Task<IEnumerable<SelectListItem>> MontarCombo(IDictionary<int, string> dicionario, int? valor = null)
+        {
+            IList<SelectListItem> retorno = await Task.Run(() =>
+            {
+                ConcurrentBag<SelectListItem> d = new ConcurrentBag<SelectListItem>();
+
+                dicionario.AsParallel().ForAll(x => {
+                    d.Add(new SelectListItem()
+                    {
+                        Value = x.Key.ToString(),
+                        Text = x.Value,
+                        Selected = valor.HasValue && x.Key == valor.Value
+                    });
+                });
+
+                return d.ToList();
+            });
+
+            return retorno;
         }
 
     }

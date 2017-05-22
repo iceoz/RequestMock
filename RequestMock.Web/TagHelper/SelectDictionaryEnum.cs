@@ -36,14 +36,21 @@ namespace RequestMock.Web
                         
             foreach (var i in Itens)
             {
-                options.Append(string.Format("<option value='{0}' {1}>{2}</option>", i.Key, primeiroItem ? "selected" : "", i.Value));
-
+                options.Append($"<option value='{i.Key}' {(primeiroItem ? "selected" : "")}>{i.Value}</option>");
                 primeiroItem = false;
             }
 
-            string selectContent = $@"<select>"+options.ToString()+"</select>";
+            StringBuilder select = new StringBuilder("<select");
 
-            output.Content.AppendHtml(new HtmlString(selectContent));
+            foreach(var attr in context.AllAttributes)
+            {
+                if (attr.Name != ItensAttributeName)
+                    select.Append($" {attr.Name}='{attr.Value}'");
+            }
+
+            select.Append($">{options}</select>");
+
+            output.Content.AppendHtml(new HtmlString(select.ToString()));
         }
     }
 }

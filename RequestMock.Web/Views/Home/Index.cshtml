@@ -1,17 +1,62 @@
-﻿@{
-    IDictionary<int, string> encodes = ViewBag.Encode;
-    IDictionary<int, string> contentTypes = ViewBag.ContentType;
-    IDictionary<int, string> statusCodes = ViewBag.StatusCode;
+﻿@model RequisicaoViewModel
+@{
+    IEnumerable<SelectListItem> encodes = ViewBag.Encode;
+    IEnumerable<SelectListItem> contentTypes = ViewBag.ContentType;
+    IEnumerable<SelectListItem> statusCodes = ViewBag.StatusCode;
 }
 <section>
     <header>
         <h1>Request Mock</h1>
         <h3>Teste sua API REST com respostas HTTP reais</h3>
     </header>
-    <section>
-        <form asp-controller="Home" asp-action="Teste">
-            <select dicionario="@encodes" id="oioi" name="adas" />
-            @await Component.InvokeAsync("SelectDictionary", new { dicionario = contentTypes, id = "oioiaaa", name = "aaabbb" })
-        </form>
-    </section>
+    <form asp-controller="home" asp-action="gravar" method="post" class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <fieldset>
+            <legend>Gere sua resposta customizada</legend>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-2 col-lg-2">Status Code</label>
+                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                    <select asp-for="StatusCode" asp-items="@statusCodes" class="chosen-select form-control"></select>
+                    <span asp-validation-for="StatusCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-2 col-lg-2">Content Type</label>
+                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                    <select asp-for="ContentType" asp-items="@contentTypes" class="chosen-select form-control"></select>
+                    <span asp-validation-for="ContentType" class="text-danger"></span>
+                </div>
+                <label class="control-label col-xs-12 hidden-sm hidden-md hidden-lg" style="margin-top:15px;">Encode</label>
+                <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3 select-encode">
+                    <select asp-for="Encode" asp-items="@encodes" class="chosen-select form-control"></select>
+                    <span asp-validation-for="Encode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group @(ViewBag.MostrarHeaders ? "" : "hidden")" id="requestheaders">
+                <label class="control-label col-xs-12 col-sm-3 col-md-2 col-lg-2">Headers</label>
+                <div class="col-xs-12 col-sm-9 col-md-10 col-lg-8">
+                    <input type="text" name="headernames[]" class="header-titulo form-control" />
+                    <span>:</span>
+                    <input type="text" name="headervalues[]" class="header-valor form-control" />
+                    <a href="#" class="btn btn-success btn-sm" type="button"><i class="glyphicon glyphicon-plus"></i></a>
+                </div>
+                <div class="col-xs-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 col-sm-9 col-md-10 col-lg-8 text-danger" 
+                     asp-validation-summary="ModelOnly"></div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-2 col-lg-2">Status Code</label>
+                <div class="col-xs-12 col-sm-9 col-md-10 col-lg-8">
+                    <textarea name="requestcontent" id="requestcontent" rows="15"></textarea>
+                    <span asp-validation-for="Requestcontent" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-md-offset-2 col-lg-offset-2 col-xs-12 col-sm-9 col-md-10 col-lg-8">
+                    <button class="btn btn-primary pull-left" type="submit">Gerar resposta HTTP</button>
+                    <button class="hidden btn btn btn-default pull-right btn-hide-headers" type="button">Remover headers</button>
+                    <button class="btn btn-default pull-right btn-show-headers" type="button">Adicionar headers</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>    
 </section>
